@@ -33,11 +33,13 @@
                 {{ post.title}}
                 </a>
              </td>
-
+            {% if is_granted('ROLE_ADMIN') %}
              <td>  <a class="text-danger" href="{{ path('post.delete',{id:post.id} )}}">
                 Delete
                 </a>
              </td>
+
+             {% endif %}
 
         </tr>
 

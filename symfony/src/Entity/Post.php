@@ -25,14 +25,14 @@ class Post
     private $title;
 
     /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=10)
+     * 
+     * @ORM\Column(type="integer", length=10)
      */
     private $year;
 
     /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
+     * 
+     * @ORM\Column(type="integer", length=255)
      */
     private $stock;
 

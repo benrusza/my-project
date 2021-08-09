@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SearchMovieController!{% endblock %}
+
+{% block body %}
+
+
+    <table class="table table-striped">
+        <thead>
+    
+        <tr>
+        
+            <td>Id</td>
+        <td>Title</td>
+          <td>Pic</td>
+          
+
+        </tr>
+
+    </thead>
+    <tbody>
+    {% for inf in info %}
+        <tr>
+
+            <td> {{ inf.id }} </td>
+            <td>  
+                {{ inf.title}}
+               
+             </td>
+
+             <td>  
+                <img src="{{ inf.image }}"  width="100" >
+             </td>
+
+        </tr>
+
+         {% endfor %}
+
+    </tbody>
+    </table>
+    
+
+
+{% endblock %}
