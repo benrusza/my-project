@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,12 +21,13 @@ class PostController extends AbstractController
      */
     public function index(PostRepository $postRepository): Response
     {
-
+        $user = $this->getUser();
         $posts = $postRepository->findAll();
         
 
         return $this->render('post/index.html.twig', [
            'posts' => $posts,
+           'user' => $user
         ]);
     }
 
@@ -80,10 +82,11 @@ class PostController extends AbstractController
      */
 
     public function show(Post $post){
-
+        $user = $this->getUser();
  
         return $this->render('post/show.html.twig',[
-            'post' => $post
+            'post' => $post,
+            'user' => $user
         ]);
     }
 
@@ -101,5 +104,69 @@ class PostController extends AbstractController
 
         return $this->redirect($this->generateUrl('post.index'));
     }
+
+    /**
+     * @Route("/rent/{id}", name="rent",)
+     
+     */
+    public function rent(Post $post){
+
+        if($post->getStock()>0){
+            $user = $this->getUser();
+            if($user->getMovieRentId()==0 || $user->getMovieRentId()==null){
+
+
+                $em = $this->getDoctrine()->getManager();
+
+                $post->setStock($post->getStock()-1);
+
+                $em->merge($post);
+                $em->flush();
+
+                $user->setMovieRentId($post->getId());
+
+                $em->merge($user);
+                $em->flush();
+
+                $this->addFlash('success','rented movie '.$post->getTitle());
+            }else{
+                $this->addFlash('success','you already rented a movie!');
+            }
+            
+
+
+        }else{
+            $this->addFlash('success','no stock of '.$post->getTitle().' now');
+        }
+
+        return $this->redirect($this->generateUrl('post.index'));
+        
+
+    }
+    
+     /**
+     * @Route("/putBackMovie/{id}", name="putBackMovie",)
+     *@param Post $post
+     */
+
+    public function putBackMovie(Post $post){
+        $user = $this->getUser();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $post->setStock($post->getStock()+1);
+
+        $em->merge($post);
+        $em->flush();
+
+        $user->setMovieRentId(0);
+
+        $em->merge($user);
+        $em->flush();
+        $this->addFlash('success','returned');
+            return $this->redirect($this->generateUrl('post.index'));
+
+     }
+
 
 }

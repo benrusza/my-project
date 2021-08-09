@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\ProfileType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,25 +12,57 @@ use Twig\Environment;
 
 class MainController extends AbstractController
 {
+    
     /**
      * @Route("/", name="main")
      */
     public function index()
     {
-
-        return $this->render('main/index.html.twig');
+        $user = $this->getUser();
+        return $this->render('main/index.html.twig',[
+            'user' => $user
+        ]);
     }
 
+   
+
     /**
-     * @Route("/custom/{name?}", name="custom")
+     * @Route("/profile/{email}", name="profile")
+     * *@param User $user
      */
 
-    public function custom(Request $request,$name){
+    public function profile(Request $request,$email){
+        
+        $user = $this->getUser();
 
-        //dump($request->get(key:'name'));
+       
+
+        $form = $this->createForm(ProfileType::class, $user);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted()){
+            //entity manager
+            $em = $this->getDoctrine()->getManager();
+
+           
+
+            $em->persist($user);
+            $em->flush();
+
+            $this->addFlash('success','info updated');
+
+            return $this->redirect($this->generateUrl('post.index'));
+        }
+
+        
+
+      
        
         return $this->render('main/custom.html.twig',[
-            'name'=>$name
+            'name'=>$email,
+            'user' => $user,
+            'form'=>$form->createView()
         ]);
 
     }

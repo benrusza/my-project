@@ -18,6 +18,7 @@ class SearchMovieController extends AbstractController
      */
     public function index(HttpClientInterface $client,string $name): Response
     {
+        $user = $this->getUser();
         $this->client=$client;
         $info=$this->fetchInformation($name);
 
@@ -25,6 +26,7 @@ class SearchMovieController extends AbstractController
 
         return $this->render('search_movie/index.html.twig', [
             'info' => $data->results,
+            'user' => $user
         ]);
     }
 

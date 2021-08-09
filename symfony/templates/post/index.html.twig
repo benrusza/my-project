@@ -8,7 +8,9 @@
     </div>
 {% endfor %}
 <h2>List</h2>
-
+<a href="{{ path('post.putBackMovie',{id:user.MovieRentId} )}}">
+             Return actual rent   {{ user.MovieRentId }}
+</a>
 <table class="table table-striped">
 
     <thead>
@@ -17,7 +19,9 @@
         
             <td>Id</td>
             <td>Title</td>
-          <td>action</td>
+            <td>Year</td>
+            <td>Stock</td> 
+            <td>action</td>
           
 
         </tr>
@@ -33,20 +37,37 @@
                 {{ post.title}}
                 </a>
              </td>
+             <td> {{ post.year }} </td>
+            <td> {{ post.stock }} </td>
+            
+             <td> 
+
             {% if is_granted('ROLE_ADMIN') %}
-             <td>  <a class="text-danger" href="{{ path('post.delete',{id:post.id} )}}">
+              <a class="text-danger" href="{{ path('post.delete',{id:post.id} )}}">
                 Delete
                 </a>
-             </td>
-
-             {% endif %}
-
+                
+            {% endif %}
+                 <a class="text-success" href="{{ path('post.rent',{id:post.id} )}}" onclick="return confirm('this rent will be 1$\n continue?')">
+                Rent
+                </a>
+           </td>
         </tr>
 
          {% endfor %}
+
+         
+         
+        
     </tbody>
 
-</table>
 
+
+</table>
+        
+        
+        
+        
+        
 
 {% endblock %}

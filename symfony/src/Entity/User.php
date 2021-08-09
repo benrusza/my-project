@@ -25,6 +25,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
+    
 
     /**
      * @ORM\Column(type="json")
@@ -36,6 +37,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="integer", length=255,nullable=true)
+     */
+    private $movieRentId;
+
+    /**
+     * @ORM\Column(type="string", length=180,nullable=true)
+     */
+    private $name;
+     /**
+     * @ORM\Column(type="integer", length=180,nullable=true)
+     */
+    private $phone;
+
+     /**
+     * @ORM\Column(type="string", length=180,nullable=true)
+     */
+    private $birthdate;
+
+     /**
+     * @ORM\Column(type="string", length=180,nullable=true)
+     */
+    private $address;
 
     public function getId(): ?int
     {
@@ -124,5 +149,65 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getMovieRentId(): ?int
+    {
+        return $this->movieRentId;
+    }
+
+    public function setMovieRentId(int $movieRentId): self
+    {
+        $this->movieRentId = $movieRentId;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getPhone(): ?int
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(int $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getBirthdate(): ?string
+    {
+        return $this->birthdate;
+    }
+
+    public function setBirthdate(string $birthdate): self
+    {
+        $this->birthdate = $birthdate;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
     }
 }
