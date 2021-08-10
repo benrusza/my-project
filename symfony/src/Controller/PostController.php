@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\PostType;
+use App\Form\PostTypeEdit;
 use App\Repository\PostRepository;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,11 +34,12 @@ class PostController extends AbstractController
 
      /**
      * @Route("/create", name="create")
+     * 
      */
     public function create(Request $request){
 
         $post = new Post();
-
+        $user = $this->getUser();
         $form = $this->createForm(PostType::class, $post);
 
         $form->handleRequest($request);
@@ -70,10 +72,46 @@ class PostController extends AbstractController
         
 
         return $this->render('post/create.html.twig',[
+            'user'=>$user,
             'form'=>$form->createView()
         ]);
 
     }
+
+    /**
+     * @Route("/edit/{id}", name="edit")
+     */
+    public function edit(Request $request,Post $post){
+
+        $user = $this->getUser();
+        $form = $this->createForm(PostTypeEdit::class, $post);
+
+        $form->handleRequest($request);
+        
+
+        if($form->isSubmitted()){
+            //entity manager
+            $em = $this->getDoctrine()->getManager();
+
+            
+            
+
+            $em->persist($post);
+            $em->flush();
+            $this->addFlash('success','info updated');
+            return $this->redirect($this->generateUrl('post.index'));
+        }
+
+        
+
+        return $this->render('post/edit.html.twig',[
+            'user'=>$user,
+            'form'=>$form->createView()
+        ]);
+
+    }
+
+    
 
     /**
      * @Route("/show/{id}", name="show",)
@@ -91,8 +129,7 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/delete/{id}", name="delete",)
-     
+     * @Route("/delete/{id}", name="delete",) 
      */
     public function delete(Post $post){
 

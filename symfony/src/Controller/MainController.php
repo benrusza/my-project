@@ -60,7 +60,7 @@ class MainController extends AbstractController
       
        
         return $this->render('main/custom.html.twig',[
-            'name'=>$email,
+            'name' => $email,
             'user' => $user,
             'form'=>$form->createView()
         ]);

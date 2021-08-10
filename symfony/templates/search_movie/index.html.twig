@@ -31,7 +31,9 @@
              <td>  
                 <img src="{{ inf.image }}"  width="100" >
              </td>
-
+            <td><a class="text-success" href="{{ path('search.create',{name:inf.id} )}}">
+                Add to stock
+                </a></td>
         </tr>
 
          {% endfor %}

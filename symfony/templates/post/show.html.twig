@@ -2,7 +2,30 @@
 
 
 {% block body %}
-<h1>{{post.title}}</h1>
-<img src="{{ '/uploads/' ~ post.image}}">
+    <h1>{{post.title}}</h1>
 
+    {% if 'http' in post.image %}
+        <img src="{{post.image}}"  width="100">
+            
+
+    {% else %}
+        <img src="{{ '/uploads/' ~ post.image}}"  width="100">
+             
+    {% endif %}
+
+    <p>year : {{ post.year }} </p>
+                
+    stock :  {{ post.stock }} 
+
+    <a class="text-success" href="{{ path('post.rent',{id:post.id} )}}" onclick="return confirm('this rent will be 1$\n continue?')">
+        Rent
+    </a>
+    {% if is_granted('ROLE_ADMIN') %}
+              <a class="text-danger" href="{{ path('post.delete',{id:post.id} )}}">
+                Delete
+                </a>
+                <a class="text-success" href="{{ path('post.edit',{id:post.id} )}}">
+                Edit
+                </a>
+    {% endif %}
 {% endblock %}
