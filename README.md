@@ -6,6 +6,11 @@ start docker
 symfony console:
 ## sudo docker exec -it php bash  
 
+install vendor folder...
+# composer install
+
+
+
 Entrar en la pagina:
 ## localhost
 
