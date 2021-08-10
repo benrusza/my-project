@@ -19,4 +19,10 @@ Registro:
 
 para buscar pelicula en imdb y añadirla:
 ## localhost/search/NOMBREPELICULA
+(necesario ser admin):
+user: admin1
+pass: admin1
 
+(normal user):
+user: normaluser
+pass: 000000
